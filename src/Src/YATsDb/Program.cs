@@ -1,3 +1,7 @@
+using DotNext.Net;
+using DotNext.Net.Cluster.Discovery.HyParView;
+using DotNext.Net.Cluster.Discovery.HyParView.Http;
+using DotNext.Net.Cluster.Messaging.Gossip;
 using Microsoft.Extensions.Options;
 using NCronJob;
 using Serilog;
@@ -78,6 +82,11 @@ public class Program
             cfg.AddJob<Services.Implementation.CronStartupRegisterJob>().RunAtStartup();
         });
 
+        builder.Services
+            .AddSingleton<RumorSpreadingManager>(new RumorSpreadingManager(EndPointFormatter.UriEndPointComparer))
+            .AddSingleton<IPeerLifetime, HyParViewPeerLifetime>();
+
+        builder.JoinMesh();
 
         WebApplication app = builder.Build();
         UseBasePath(app);
