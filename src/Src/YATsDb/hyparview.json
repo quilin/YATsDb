@@ -1,0 +1,17 @@
+{
+  "protocolVersion" : "http2",
+  "protocolVersionPolicy" : "RequestVersionOrLower",
+  "requestTimeout" : "00:01:00",
+  "clientHandlerName" : "HyParViewClient",
+  "localNode" : "http://localhost:5161",
+  "activeViewCapacity" : 5,
+  "passiveViewCapacity" : 10,
+  "activeRandomWalkLength" : 3,
+  "passiveRandomWalkLength" : 2,
+  "shuffleActiveViewCount" : 2,
+  "shufflePassiveViewCount" : 5,
+  "shuffleRandomWalkLength" : 2,
+  "queueCapacity" : 15,
+  "lowerShufflePeriod" : 1000,
+  "upperShufflePeriod" : 1500
+}

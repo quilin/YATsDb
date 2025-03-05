@@ -2,24 +2,21 @@ using DotNext.Net;
 using DotNext.Net.Cluster.Discovery.HyParView;
 using DotNext.Net.Cluster.Messaging.Gossip;
 
-namespace YATsDb;
+namespace YATsDb.Cluster;
 
-internal sealed class HyParViewPeerLifetime : IPeerLifetime
+internal sealed class HyParViewPeerLifetime(
+    RumorSpreadingManager spreadingManager,
+    ILogger<HyParViewPeerLifetime> logger) : IPeerLifetime
 {
-    private readonly RumorSpreadingManager spreadingManager;
-
-    public HyParViewPeerLifetime(RumorSpreadingManager spreadingManager)
-        => this.spreadingManager = spreadingManager;
-
     private void OnPeerDiscovered(PeerController controller, PeerEventArgs args)
     {
-        Console.WriteLine($"Peer {args.PeerAddress} has been discovered by the current node");
+        logger.LogTrace("Peer {PeerAddress} has been discovered by the current node", args.PeerAddress.ToString());
         spreadingManager.TryEnableControl(args.PeerAddress);
     }
 
     private void OnPeerGone(PeerController controller, PeerEventArgs args)
     {
-        Console.WriteLine($"Peer {args.PeerAddress} is no longer visible by the current node");
+        logger.LogTrace("Peer {PeerAddress} is no longer visible by the current node", args.PeerAddress.ToString());
         spreadingManager.TryDisableControl(args.PeerAddress);
     }
 

@@ -1,11 +1,9 @@
-using DotNext.Net;
-using DotNext.Net.Cluster.Discovery.HyParView;
 using DotNext.Net.Cluster.Discovery.HyParView.Http;
-using DotNext.Net.Cluster.Messaging.Gossip;
 using Microsoft.Extensions.Options;
 using NCronJob;
 using Serilog;
 using Tenray.ZoneTree;
+using YATsDb.Cluster;
 using YATsDb.Components;
 
 namespace YATsDb;
@@ -82,10 +80,8 @@ public class Program
             cfg.AddJob<Services.Implementation.CronStartupRegisterJob>().RunAtStartup();
         });
 
-        builder.Services
-            .AddSingleton<RumorSpreadingManager>(new RumorSpreadingManager(EndPointFormatter.UriEndPointComparer))
-            .AddSingleton<IPeerLifetime, HyParViewPeerLifetime>();
-
+        builder.Configuration.AddJsonFile("hyparview.json", false);
+        builder.Services.AddRaftCluster(builder.Configuration);
         builder.JoinMesh();
 
         WebApplication app = builder.Build();

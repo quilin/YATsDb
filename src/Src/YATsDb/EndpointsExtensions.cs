@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using YATsDb.Endpoints;
+using YATsDb.Endpoints.Discovery;
 
 namespace YATsDb;
 
@@ -7,6 +8,10 @@ internal static class EndpointsExtensions
 {
     public static void AddAppEndpoints(this IEndpointRouteBuilder endpointRouteBuilder)
     {
+        endpointRouteBuilder.AddBroadcastEndpoint();
+        endpointRouteBuilder.AddNeighborsEndpoint();
+        endpointRouteBuilder.AddRumorEndpoint();
+
         endpointRouteBuilder.AddRawWriteDataEndpoint();
         endpointRouteBuilder.AddRawQueryEndpoint();
 
