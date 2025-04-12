@@ -86,7 +86,7 @@ internal class HttpFunctions
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        httpRequestMessage.Content = JsonContent.Create(json);
+        httpRequestMessage.Content = JsonContent.Create(json, AppJsonSerializerContext.Default.DictionaryStringObject);
 
         using var httpResponse = await httpClient.SendAsync(httpRequestMessage);
         httpResponse.EnsureSuccessStatusCode();

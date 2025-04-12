@@ -54,7 +54,7 @@ public class CronManagement : ICronManagement
             throw new YatsdbDataException($"Job {bucketName}/{request.Name} already exists.");
         }
 
-        var jsonData = JsonSerializer.Serialize(cronJobData);
+        var jsonData = JsonSerializer.Serialize(cronJobData, AppJsonSerializerContext.Default.CronJobData);
 
         kvStorage.Upsert(MainKey, fullName, request.Enabled.ToString());
         kvStorage.Upsert(DataKey, fullName, jsonData);
@@ -104,7 +104,7 @@ public class CronManagement : ICronManagement
                     continue;
                 }
 
-                var cronJobData = JsonSerializer.Deserialize<CronJobData>(dataString);
+                var cronJobData = JsonSerializer.Deserialize(dataString, AppJsonSerializerContext.Default.CronJobData);
                 System.Diagnostics.Debug.Assert(cronJobData != null);
 
                 DeleteCronJob(cronJobData.BucketName, cronJobData.Name);
@@ -134,14 +134,14 @@ public class CronManagement : ICronManagement
             DisableCronJob(bucketName, jobName);
         }
 
-        var cronJobData = JsonSerializer.Deserialize<CronJobData>(dataString);
+        var cronJobData = JsonSerializer.Deserialize(dataString, AppJsonSerializerContext.Default.CronJobData);
         System.Diagnostics.Debug.Assert(cronJobData != null);
 
         cronJobData.CronExpression = request.CronExpression.Trim();
         cronJobData.Code = request.Code.Trim();
         cronJobData.Updated = timeProvider.GetUtcNow();
 
-        var jsonData = JsonSerializer.Serialize(cronJobData);
+        var jsonData = JsonSerializer.Serialize(cronJobData, AppJsonSerializerContext.Default.CronJobData);
 
         kvStorage.Upsert(MainKey, jobName, request.Enabled.ToString());
         kvStorage.Upsert(DataKey, jobName, jsonData);
@@ -168,7 +168,7 @@ public class CronManagement : ICronManagement
                     throw new YatsdbDataException("invalid data");
                 }
 
-                var cronJobData = JsonSerializer.Deserialize<CronJobData>(dataString);
+                var cronJobData = JsonSerializer.Deserialize(dataString, AppJsonSerializerContext.Default.CronJobData);
                 System.Diagnostics.Debug.Assert(cronJobData != null);
 
                 result.Add(new CronJobInfo(cronJobData.Name,
@@ -198,7 +198,7 @@ public class CronManagement : ICronManagement
             throw new YatsdbDataException("Incompatible data");
         }
 
-        var cronJobData = JsonSerializer.Deserialize<CronJobData>(dataString);
+        var cronJobData = JsonSerializer.Deserialize(dataString, AppJsonSerializerContext.Default.CronJobData);
         System.Diagnostics.Debug.Assert(cronJobData != null);
 
         return new CronJob(cronJobData.BucketName,
@@ -224,7 +224,7 @@ public class CronManagement : ICronManagement
                     continue;
                 }
 
-                var cronJobData = JsonSerializer.Deserialize<CronJobData>(dataString);
+                var cronJobData = JsonSerializer.Deserialize(dataString, AppJsonSerializerContext.Default.CronJobData);
                 System.Diagnostics.Debug.Assert(cronJobData != null);
 
                 EnableCronJob(cronJobData.BucketName, cronJobData.Name, cronJobData.CronExpression);
