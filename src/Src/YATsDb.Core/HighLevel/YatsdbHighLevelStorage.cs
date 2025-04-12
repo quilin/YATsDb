@@ -49,7 +49,7 @@ public class YatsdbHighLevelStorage : IYatsdbHighLevelStorage
         if (this.lowLevelStorage.TryRemoveBucket(bucket, out uint bucketId))
         {
             this.logger.LogBucketDoesNotExists(bucket);
-            throw new YatsdbDataException($"Bucket {bucketId} does not exists.");
+            throw new YatsdbDataException($"Bucket `{bucket}` with id {bucketId} does not exist.");
         }
 
         byte[] removeBucketKey = TupleEncoder.Create(DataType.ApplicationQueue,
