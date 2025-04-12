@@ -11,7 +11,7 @@ using YATsDb.Core.HighLevel.QueryParsing;
 
 namespace YATsDb.Core.Services;
 
-public class DalServices : IDalServices
+public class DalServices : IDalService
 {
     private readonly static QueryParser queryParser = new QueryParser();
 

@@ -47,7 +47,7 @@ builder.Services
 #pragma warning restore IL2026
 
 builder.Services.AddTransient<YATsDb.Core.Services.IManagementService, YATsDb.Core.Services.ManagementService>();
-builder.Services.AddTransient<YATsDb.Core.Services.IDalServices, YATsDb.Core.Services.DalServices>();
+builder.Services.AddTransient<YATsDb.Core.Services.IDalService, YATsDb.Core.Services.DalServices>();
 builder.Services.AddTransient<ICronManagement, CronManagement>();
 builder.Services.AddTransient<IJsInternalEngine, JsInternalEngine>();
 

@@ -15,7 +15,7 @@ public static class PostQueryEndpoint
     {
         endpointRouteBuilder.MapPost("/query", (QueryDal model,
             [FromQuery(Name = "timeUnit")] TimeRepresentation? timeUnit,
-            IDalServices dalServices)
+            IDalService dalServices)
             =>
         {
             QueryParameters queryParameters = new QueryParameters();

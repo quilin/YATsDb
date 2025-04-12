@@ -11,13 +11,13 @@ namespace YATsDb.Services.Implementation.JsEngine;
 public class JsInternalEngine : IJsInternalEngine
 {
     private readonly ILoggerFactory loggerFactory;
-    private readonly IDalServices dalServices;
+    private readonly IDalService dalServices;
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IOptions<JsEngineSetup> jsEngineSetup;
     private readonly ILogger<JsInternalEngine> logger;
 
     public JsInternalEngine(ILoggerFactory loggerFactory,
-        IDalServices dalServices,
+        IDalService dalServices,
         IHttpClientFactory httpClientFactory,
         IOptions<JsEngineSetup> jsEngineSetup)
     {

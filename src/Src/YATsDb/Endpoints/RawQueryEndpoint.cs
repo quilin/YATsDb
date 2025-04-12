@@ -7,7 +7,7 @@ public static class RawQueryEndpoint
 {
     public static void AddRawQueryEndpoint(this IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPost("/query/raw/{bucketName}", (string bucketName, RawStringDto content, IDalServices dalServices)
+        endpointRouteBuilder.MapPost("/query/raw/{bucketName}", (string bucketName, RawStringDto content, IDalService dalServices)
             =>
         {
             QueryParameters queryParameters = new QueryParameters();

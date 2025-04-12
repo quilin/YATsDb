@@ -7,11 +7,12 @@ public static class RawWriteDataEndpoint
 {
     public static void AddRawWriteDataEndpoint(this IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPost("/write/{bucketName}", (string bucketName, RawStringDto content, IDalServices dalServices)
-            =>
-        {
-            dalServices.InsertLines(bucketName, content.Value);
-            return Results.Created();
-        });
+        endpointRouteBuilder.MapPost("/write/{bucketName}",
+            (string bucketName, RawStringDto content, IDalService dalServices)
+                =>
+            {
+                dalServices.InsertLines(bucketName, content.Value);
+                return Results.Created();
+            });
     }
 }

@@ -29,7 +29,7 @@ public static class Program
         builder.Services.AddProblemDetails();
 
         builder.Services.AddTransient<YATsDb.Core.Services.IManagementService, YATsDb.Core.Services.ManagementService>();
-        builder.Services.AddTransient<YATsDb.Core.Services.IDalServices, YATsDb.Core.Services.DalServices>();
+        builder.Services.AddTransient<YATsDb.Core.Services.IDalService, YATsDb.Core.Services.DalServices>();
 
         builder.Services.AddTransient<YATsDb.Core.HighLevel.IYatsdbHighLevelStorage, YATsDb.Core.HighLevel.YatsdbHighLevelStorage>();
         builder.Services.AddTransient<YATsDb.Core.LowLevel.IYatsdbLowLevelStorage, YATsDb.Core.LowLevel.YatsdbLowLevelStorage>();

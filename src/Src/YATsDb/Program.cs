@@ -43,7 +43,7 @@ public class Program
             .ValidateOnStart();
 
         builder.Services.AddTransient<YATsDb.Core.Services.IManagementService, YATsDb.Core.Services.ManagementService> ();
-        builder.Services.AddTransient< YATsDb.Core.Services.IDalServices, YATsDb.Core.Services.DalServices> ();
+        builder.Services.AddTransient< YATsDb.Core.Services.IDalService, YATsDb.Core.Services.DalServices> ();
         builder.Services.AddTransient<Services.Contracts.ICronManagement, Services.Implementation.CronManagement>();
         builder.Services.AddTransient<Services.Contracts.IJsInternalEngine, Services.Implementation.JsEngine.JsInternalEngine>();
 
