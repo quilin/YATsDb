@@ -5,6 +5,7 @@ using Serilog;
 using Tenray.ZoneTree;
 using YATsDB.Server;
 using YATsDB.Server.Endpoints;
+using YATsDB.Server.Endpoints.Common;
 using YATsDB.Server.Infrastructure.Workers;
 using YATsDB.Server.Services.Configuration;
 using YATsDB.Server.Services.Contracts;
@@ -116,6 +117,10 @@ app.Run();
 [JsonSerializable(typeof(List<ManagementGetBucketsEndpoint.BucketInfoDto>))]
 [JsonSerializable(typeof(PostQueryEndpoint.QueryDal))]
 [JsonSerializable(typeof(List<string>))]
+[JsonSerializable(typeof(CronJobData))]
+[JsonSerializable(typeof(Dictionary<string, object>))]
+[JsonSerializable(typeof(QueryResult))]
+[JsonSerializable(typeof(double))]
 internal sealed partial class AppJsonSerializerContext : JsonSerializerContext
 {
 }
