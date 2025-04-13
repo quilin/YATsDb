@@ -3,8 +3,10 @@ using Microsoft.Extensions.Options;
 using NCronJob;
 using Serilog;
 using Tenray.ZoneTree;
+using YATsDb.Core.HighLevel;
 using YATsDB.Server;
 using YATsDB.Server.Endpoints;
+using YATsDB.Server.Endpoints.Common;
 using YATsDB.Server.Infrastructure.Workers;
 using YATsDB.Server.Services.Configuration;
 using YATsDB.Server.Services.Contracts;
@@ -46,7 +48,7 @@ builder.Services
 #pragma warning restore IL2026
 
 builder.Services.AddTransient<YATsDb.Core.Services.IManagementService, YATsDb.Core.Services.ManagementService>();
-builder.Services.AddTransient<YATsDb.Core.Services.IDalServices, YATsDb.Core.Services.DalServices>();
+builder.Services.AddTransient<YATsDb.Core.Services.IDalService, YATsDb.Core.Services.DalServices>();
 builder.Services.AddTransient<ICronManagement, CronManagement>();
 builder.Services.AddTransient<IJsInternalEngine, JsInternalEngine>();
 
@@ -113,9 +115,13 @@ app.Run();
 
 [JsonSerializable(typeof(CronPostEndpoint.CreateCronDto))]
 [JsonSerializable(typeof(ManagementPostBucketsEndpoint.CreateBucketDto))]
-[JsonSerializable(typeof(List<ManagementGetBucketsEndpoint.BucketInfoDto>))]
 [JsonSerializable(typeof(PostQueryEndpoint.QueryDal))]
 [JsonSerializable(typeof(List<string>))]
+[JsonSerializable(typeof(CronJobData))]
+[JsonSerializable(typeof(Dictionary<string, object>))]
+[JsonSerializable(typeof(QueryResult))]
+[JsonSerializable(typeof(double))]
+[JsonSerializable(typeof(List<HighLevelBucketInfo>))]
 internal sealed partial class AppJsonSerializerContext : JsonSerializerContext
 {
 }

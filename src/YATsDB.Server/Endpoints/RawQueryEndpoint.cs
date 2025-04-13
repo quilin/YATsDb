@@ -8,7 +8,7 @@ public static class RawQueryEndpoint
     public static void AddRawQueryEndpoint(this IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapPost("/query/raw/{bucketName}",
-                (string bucketName, RawStringDto content, IDalServices dalServices)
+                (string bucketName, RawStringDto content, IDalService dalServices)
                     =>
                 {
                     var queryParameters = new QueryParameters();
@@ -16,6 +16,6 @@ public static class RawQueryEndpoint
                     var r = dalServices.Query(bucketName, content.Value.Trim(), queryParameters);
                     return Results.Ok(new QueryResult(r));
                 })
-            .ExcludeFromDescription();
+            .WithTags(TagNames.Query);
     }
 }

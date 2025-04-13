@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Net.Sockets;
-using System.Text;
 using YATsDb.Core.LowLevel;
 using YATsDb.Core.TupleEncoding;
 using YATsDb.Core.Utils;
@@ -46,16 +44,16 @@ public class YatsdbHighLevelStorage : IYatsdbHighLevelStorage
     {
         this.logger.DeleteBucket_LogEntering(bucket);
 
-        if (this.lowLevelStorage.TryRemoveBucket(bucket, out uint bucketId))
+        if (!this.lowLevelStorage.TryRemoveBucket(bucket, out uint bucketId))
         {
             this.logger.LogBucketDoesNotExists(bucket);
-            throw new YatsdbDataException($"Bucket {bucketId} does not exists.");
+            throw new YatsdbDataException($"Bucket `{bucket}` with id {bucketId} does not exist.");
         }
 
         byte[] removeBucketKey = TupleEncoder.Create(DataType.ApplicationQueue,
             QueueDataType.BucketRemover,
-        now.ToUnixTimeMilliseconds(),
-        Random.Shared.NextUint32());
+            now.ToUnixTimeMilliseconds(),
+            Random.Shared.NextUint32());
 
         byte[] removeBucketValue = TupleEncoder.Create(QueueDataType.BucketRemover, bucketId);
 

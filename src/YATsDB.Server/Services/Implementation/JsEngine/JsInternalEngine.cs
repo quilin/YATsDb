@@ -1,4 +1,5 @@
-﻿using Jint;
+﻿using System.Diagnostics.CodeAnalysis;
+using Jint;
 using Microsoft.Extensions.Options;
 using YATsDb.Core.Services;
 using YATsDB.Server.Services.Configuration;
@@ -9,13 +10,13 @@ namespace YATsDB.Server.Services.Implementation.JsEngine;
 public class JsInternalEngine : IJsInternalEngine
 {
     private readonly ILoggerFactory loggerFactory;
-    private readonly IDalServices dalServices;
+    private readonly IDalService dalServices;
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IOptions<JsEngineSetup> jsEngineSetup;
     private readonly ILogger<JsInternalEngine> logger;
 
     public JsInternalEngine(ILoggerFactory loggerFactory,
-        IDalServices dalServices,
+        IDalService dalServices,
         IHttpClientFactory httpClientFactory,
         IOptions<JsEngineSetup> jsEngineSetup)
     {
@@ -26,6 +27,7 @@ public class JsInternalEngine : IJsInternalEngine
         logger = loggerFactory.CreateLogger<JsInternalEngine>();
     }
 
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicMethods, typeof(Engine))]
     public void ExecuteModule(JsExecutionContext context)
     {
         logger.LogTrace("Entering to ExecuteModule for name {name}.", context.Name);
@@ -56,11 +58,16 @@ public class JsInternalEngine : IJsInternalEngine
             jsEngineSetup.Value.Api.EnableProcesspApi);
         var environmentProvider = new EnvironmentProvider();
 
+        // This assuming DynamicDependencyAttribute solves the problems with trimming
+#pragma warning disable IL2026
+#pragma warning disable IL2111
         engine.SetValue("__log", new Action<object?>(val =>
         {
             var value = val?.ToString() ?? "<NULL>";
             System.Diagnostics.Debug.WriteLine(value);
         }));
+#pragma warning restore IL2111
+#pragma warning restore IL2026
 
 
         engine.Modules.Add("dbApi", builder =>

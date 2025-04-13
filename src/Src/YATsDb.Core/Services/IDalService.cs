@@ -1,7 +1,7 @@
 ﻿
 namespace YATsDb.Core.Services;
 
-public interface IDalServices
+public interface IDalService
 {
     void InsertLines(string bucketName, string lines);
 

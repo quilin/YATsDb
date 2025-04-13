@@ -5,9 +5,9 @@ namespace YATsDb.Services.Implementation.JsEngine;
 
 internal class DatabaseProvider
 {
-    private readonly IDalServices dalServices;
+    private readonly IDalService dalServices;
 
-    public DatabaseProvider(IDalServices dalServices)
+    public DatabaseProvider(IDalService dalServices)
     {
         this.dalServices = dalServices;
     }
